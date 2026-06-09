@@ -17,11 +17,14 @@ const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
     console.log('[FCM-SW] Background message:', payload);
+    
     const title = payload.notification?.title || 'New Announcement';
     const options = {
         body: payload.notification?.body || 'Check the class website',
-        icon: '/pngegg.png',
-        badge: '/pngegg.png'
+        icon: '/bsceeetitans2/pngegg.png',
+        badge: '/bsceeetitans2/pngegg.png',
+        data: payload.data || {}
     };
+    
     return self.registration.showNotification(title, options);
 });
