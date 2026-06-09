@@ -1,23 +1,11 @@
-// sw.js - Combined Service Worker for PWA + Firebase Messaging
+// sw.js - Simplified Service Worker for GitHub Pages
 
-const CACHE_NAME = 'bsceee-v1';
-const urlsToCache = [
-    './',
-    './index.html',
-    './style.css',
-    './app.js',
-    './manifest.json',
-    './offline.html'
-];
+const CACHE_NAME = 'bsceee-v3';
 
-// Install event - cache assets
+// Install event - don't cache anything immediately
 self.addEventListener('install', event => {
     console.log('[SW] Installing...');
-    event.waitUntil(
-        caches.open(CACHE_NAME)
-            .then(cache => cache.addAll(urlsToCache))
-            .then(() => self.skipWaiting())
-    );
+    self.skipWaiting();
 });
 
 // Activate event - clean old caches
@@ -35,30 +23,22 @@ self.addEventListener('activate', event => {
     );
 });
 
-// Fetch event - serve from cache, fallback to network
+// Fetch event - only cache same-origin requests
 self.addEventListener('fetch', event => {
+    const url = new URL(event.request.url);
+    
+    // Skip chrome-extension and other non-http(s) requests
+    if (!url.protocol.startsWith('http')) {
+        return;
+    }
+    
     event.respondWith(
-        caches.match(event.request)
-            .then(response => {
-                if (response) {
-                    return response;
-                }
-                return fetch(event.request).then(response => {
-                    if (!response || response.status !== 200 || response.type !== 'basic') {
-                        return response;
-                    }
-                    const responseToCache = response.clone();
-                    caches.open(CACHE_NAME).then(cache => {
-                        cache.put(event.request, responseToCache);
-                    });
-                    return response;
-                });
-            }).catch(() => {
-                if (event.request.mode === 'navigate') {
-                    return caches.match('./offline.html');
-                }
-                return new Response('Offline - check your connection');
-            })
+        caches.match(event.request).then(response => {
+            if (response) {
+                return response;
+            }
+            return fetch(event.request);
+        })
     );
 });
 
@@ -86,8 +66,8 @@ messaging.onBackgroundMessage((payload) => {
     const notificationTitle = payload.notification?.title || 'New Announcement';
     const notificationOptions = {
         body: payload.notification?.body || 'Check the class website for updates',
-        icon: 'icons/icon-192.png',
-        badge: 'icons/icon-192.png',
+        icon: '/pngegg.png',
+        badge: '/pngegg.png',
         vibrate: [200, 100, 200],
         data: payload.data || {}
     };
@@ -97,21 +77,19 @@ messaging.onBackgroundMessage((payload) => {
 
 // Handle notification click
 self.addEventListener('notificationclick', event => {
-    console.log('[SW] Notification clicked:', event.notification);
+    console.log('[SW] Notification clicked');
     event.notification.close();
-    
-    const urlToOpen = event.notification.data?.url || '/announcements.html';
     
     event.waitUntil(
         clients.matchAll({ type: 'window', includeUncontrolled: true })
             .then(clientList => {
                 for (const client of clientList) {
-                    if (client.url.includes(urlToOpen) && 'focus' in client) {
+                    if (client.url.includes('announcements') && 'focus' in client) {
                         return client.focus();
                     }
                 }
                 if (clients.openWindow) {
-                    return clients.openWindow(urlToOpen);
+                    return clients.openWindow('/announcements.html');
                 }
             })
     );
