@@ -269,24 +269,51 @@ function setupPWA() {
 // ==================== FIREBASE MESSAGING ====================
 function setupFirebaseMessaging() {
     if (!firebase.messaging.isSupported()) {
-        console.log('📱 Messaging not supported in this browser');
+        console.log('📱 Messaging not supported');
         return;
     }
     
     messaging = firebase.messaging();
     
-    // Request permission
-    Notification.requestPermission().then(permission => {
-        if (permission === 'granted') {
-            getFCMToken();
-        }
-    });
+    // IMPORTANT: Register with the CORRECT path
+    navigator.serviceWorker.register('/bsceeetitans2/firebase-messaging-sw.js')
+        .then(reg => {
+            console.log('✅ FCM SW registered at:', reg.scope);
+            // Tell Firebase to use this service worker
+            if (messaging.useServiceWorker) {
+                messaging.useServiceWorker(reg);
+            }
+        })
+        .catch(err => console.log('❌ FCM SW registration failed:', err));
     
-    // Handle foreground messages
+    // Request permission
+    if (Notification.permission === 'default') {
+        Notification.requestPermission().then(permission => {
+            if (permission === 'granted') getFCMToken();
+        });
+    } else if (Notification.permission === 'granted') {
+        getFCMToken();
+    }
+    
     messaging.onMessage((payload) => {
         console.log('📨 Message received:', payload);
         showNotification(payload);
         updateNotificationBadge();
+    });
+}
+
+function getFCMToken() {
+    messaging.getToken({
+        vapidKey: 'BMYtnObicSX3KWDOnLoOe7ZdO4qAzMO9q7tt4j1CdmUsvHYAdJfiLMWF6Y339UJKtw_2hmNnCGe58SeeiK2PX4k'
+    }).then(token => {
+        if (token) {
+            console.log('✅ FCM Token:', token.substring(0, 30) + '...');
+            saveTokenToFirebase(token);
+        } else {
+            console.log('❌ No token received');
+        }
+    }).catch(err => {
+        console.log('❌ Token error:', err.message);
     });
 }
 
