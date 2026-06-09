@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Setup PWA
     setupPWA();
     
-    // Setup Firebase Messaging
+    // Setup Firebase Messaging (simplified)
     setupFirebaseMessaging();
     
     // Setup notifications
@@ -207,25 +207,75 @@ function saveContent() {
     alert('✅ Content updated successfully!');
 }
 
+// ==================== FIREBASE MESSAGING (SIMPLIFIED - NO SERVICE WORKER ERRORS) ====================
+function setupFirebaseMessaging() {
+    // Check if messaging is supported
+    if (!firebase.messaging || !firebase.messaging.isSupported()) {
+        console.log('📱 Firebase Messaging not supported in this browser');
+        return;
+    }
+    
+    // Request notification permission
+    if (Notification.permission !== 'granted') {
+        Notification.requestPermission().then(permission => {
+            if (permission === 'granted') {
+                console.log('✅ Notification permission granted');
+                initMessaging();
+            }
+        });
+    } else {
+        initMessaging();
+    }
+}
+
+function initMessaging() {
+    try {
+        messaging = firebase.messaging();
+        
+        // Listen for foreground messages
+        messaging.onMessage((payload) => {
+            console.log('📨 Message received:', payload);
+            
+            // Show notification
+            const title = payload.notification?.title || 'New Announcement';
+            const options = {
+                body: payload.notification?.body || 'Check the website for updates',
+                icon: 'pngegg.png',
+                badge: 'pngegg.png'
+            };
+            
+            new Notification(title, options);
+            
+            // Update notification badge
+            updateNotificationBadge();
+        });
+        
+        console.log('✅ Firebase Messaging active (foreground only)');
+        
+    } catch (error) {
+        console.log('❌ Messaging error:', error.message);
+    }
+}
+
 // ==================== NOTIFICATIONS ====================
 function updateNotificationBadge() {
+    const badge = document.getElementById('notificationCount');
+    if (!badge) return;
+    
     db.ref('announcements').once('value').then(snapshot => {
-        const badge = document.getElementById('notificationCount');
         if (!snapshot.exists()) {
-            if (badge) badge.style.display = 'none';
+            badge.style.display = 'none';
             return;
         }
         
         const data = snapshot.val();
         const activeCount = Object.values(data).filter(a => a.status === 'active').length;
         
-        if (badge) {
-            if (activeCount > 0) {
-                badge.textContent = activeCount > 9 ? '9+' : activeCount;
-                badge.style.display = 'flex';
-            } else {
-                badge.style.display = 'none';
-            }
+        if (activeCount > 0) {
+            badge.textContent = activeCount > 9 ? '9+' : activeCount;
+            badge.style.display = 'flex';
+        } else {
+            badge.style.display = 'none';
         }
     });
 }
@@ -237,11 +287,11 @@ function setupNotifications() {
 
 // ==================== PWA SETUP ====================
 function setupPWA() {
-    // Service Worker
+    // Service Worker for PWA only (not for messaging)
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('sw.js')
-            .then(reg => console.log('✅ SW registered:', reg.scope))
-            .catch(err => console.log('❌ SW failed:', err));
+            .then(reg => console.log('✅ PWA SW registered:', reg.scope))
+            .catch(err => console.log('❌ PWA SW failed:', err));
     }
     
     // Install Button
@@ -251,7 +301,7 @@ function setupPWA() {
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        installBtn.style.display = 'block';
+        if (installBtn) installBtn.style.display = 'block';
     });
     
     installBtn?.addEventListener('click', async () => {
@@ -266,90 +316,6 @@ function setupPWA() {
     });
 }
 
-// ==================== FIREBASE MESSAGING ====================
-function setupFirebaseMessaging() {
-    if (!firebase.messaging.isSupported()) {
-        console.log('📱 Messaging not supported');
-        return;
-    }
-    
-    messaging = firebase.messaging();
-    
-    // IMPORTANT: Register with the CORRECT path
-    navigator.serviceWorker.register('/bsceeetitans2/firebase-messaging-sw.js')
-        .then(reg => {
-            console.log('✅ FCM SW registered at:', reg.scope);
-            // Tell Firebase to use this service worker
-            if (messaging.useServiceWorker) {
-                messaging.useServiceWorker(reg);
-            }
-        })
-        .catch(err => console.log('❌ FCM SW registration failed:', err));
-    
-    // Request permission
-    if (Notification.permission === 'default') {
-        Notification.requestPermission().then(permission => {
-            if (permission === 'granted') getFCMToken();
-        });
-    } else if (Notification.permission === 'granted') {
-        getFCMToken();
-    }
-    
-    messaging.onMessage((payload) => {
-        console.log('📨 Message received:', payload);
-        showNotification(payload);
-        updateNotificationBadge();
-    });
-}
-
-function getFCMToken() {
-    messaging.getToken({
-        vapidKey: 'BMYtnObicSX3KWDOnLoOe7ZdO4qAzMO9q7tt4j1CdmUsvHYAdJfiLMWF6Y339UJKtw_2hmNnCGe58SeeiK2PX4k'
-    }).then(token => {
-        if (token) {
-            console.log('✅ FCM Token:', token.substring(0, 30) + '...');
-            saveTokenToFirebase(token);
-        } else {
-            console.log('❌ No token received');
-        }
-    }).catch(err => {
-        console.log('❌ Token error:', err.message);
-    });
-}
-
-function getFCMToken() {
-    messaging.getToken({
-        vapidKey: 'BMYtnObicSX3KWDOnLoOe7ZdO4qAzMO9q7tt4j1CdmUsvHYAdJfiLMWF6Y339UJKtw_2hmNnCGe58SeeiK2PX4k'
-    }).then(token => {
-        console.log('✅ FCM Token:', token);
-        saveTokenToFirebase(token);
-    }).catch(err => console.log('❌ Token error:', err));
-}
-
-function saveTokenToFirebase(token) {
-    const userId = auth.currentUser?.uid || 'anonymous';
-    db.ref('fcmTokens/' + userId).set({
-        token: token,
-        timestamp: new Date().toISOString()
-    });
-}
-
-function showNotification(payload) {
-    const title = payload.notification?.title || 'New Announcement';
-    const options = {
-        body: payload.notification?.body || 'Check the website for updates',
-        icon: 'icons/icon-192.png',
-        badge: 'icons/icon-192.png',
-        data: payload.data || {}
-    };
-    
-    const notification = new Notification(title, options);
-    notification.onclick = () => {
-        window.focus();
-        window.location.href = 'announcements.html';
-    };
-}
-
 // ==================== CUSTOM SECTIONS ====================
 function loadCustomSections() {
     db.ref('customSections').once('value').then(snapshot => {
@@ -357,6 +323,8 @@ function loadCustomSections() {
         if (!data) return;
         
         const container = document.getElementById('customSectionsContainer');
+        if (!container) return;
+        
         container.innerHTML = '';
         
         const sections = Object.values(data).sort((a, b) => a.order - b.order);
