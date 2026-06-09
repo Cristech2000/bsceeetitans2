@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Semester Registration - BSCEEE Y2S1</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .registration-form {
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 30px;
+            background: var(--bg-primary);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .registration-form h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--primary);
+        }
+
+        .registration-form input,
+        .registration-form select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .registration-form button {
+            margin-top: 25px;
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            background-color: #004080;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .registration-form button:hover {
+            background-color: #003366;
+        }
+
+        .shift-status {
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .shift-full {
+            background-color: #ffcccc;
+            color: #cc0000;
+            border: 1px solid #cc0000;
+        }
+
+        .shift-available {
+            background-color: #ccffcc;
+            color: #006600;
+            border: 1px solid #006600;
+        }
+
+        .groupRegistration {
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 30px;
+            background: var(--bg-primary);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .groupRegistration input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .groupRegistration button {
+            margin-top: 25px;
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            background-color: #004080;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .groupRegistration button:hover {
+            background-color: #003366;
+        }
+
+        .noGroup {
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 30px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .regInput {
+            margin: 4px 0;
+            width: 100%;
+        }
+
+        .membersInputs {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .noGroup input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .noGroup button {
+            margin-top: 25px;
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            background-color: #004080;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .noGroup button:hover {
+            background-color: #003366;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Top Nav -->
+    <div id="overlay"></div>
+
+    <header>
+        <nav>
+            <div class="nav-left">
+                <button id="menuBtn"><i class="fas fa-bars"></i></button>
+                <div class="logo">
+                    <img src="GALLERY/image-removebg-preview.png" alt="Chuka University Logo">
+                    <div class="logo-text">
+                        <h1>Chuka University</h1>
+                        <p>Faculty of Engineering</p>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-actions">
+                <div id="adminIndicator">
+                    <i class="fas fa-crown"></i> Admin
+                </div>
+                <button id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <div id="sidebar">
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="timetable.html"><i class="fas fa-calendar"></i> Timetable</a>
+        <a href="assignments.html"><i class="fas fa-tasks"></i> Assignments</a>
+        <a href="studydocs.html"><i class="fas fa-book"></i> Study Documents</a>
+        <a href="gallery.html"><i class="fas fa-images"></i> Gallery</a>
+        <a href="sports.html"><i class="fas fa-futbol"></i> Sports</a>
+        <a href="personell.html"><i class="fas fa-users"></i> Personnel</a>
+        <a href="registration.html"><i class="fas fa-clipboard-list"></i> Registration</a>
+        <a href="support.html"><i class="fas fa-life-ring"></i> Academic Support</a>
+        <a href="admin-login.html" id="adminLoginLink"><i class="fas fa-lock"></i> Admin Login</a>
+        <a href="admin-dashboard.html" id="adminDashboardLink" style="display: none;"><i class="fas fa-cogs"></i>
+            Dashboard</a>
+    </div>
+
+    <!-- Registration Form -->
+    <main class="content">
+        <section class="registration-form">
+            <h2>Semester Registration</h2>
+            <form name="registration-form">
+                <input type="text" name="Name" placeholder="Full Name" required>
+                <input type="text" name="RegNo" placeholder="Registration Number" required>
+                <input type="tel" name="Phone" placeholder="Phone Number" required>
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+
+
+        <!-- Group Registration -->
+        <section class="registration-form">
+            <h2>Group Registration</h2>
+            <form name="groupForm">
+                <input type="text" id="groupName" placeholder="Group Name" required>
+
+                <h3>Enter 6 Members' Reg Numbers</h3>
+                <input class="regInput" placeholder="Reg No 1" required>
+                <input class="regInput" placeholder="Reg No 2" required>
+                <input class="regInput" placeholder="Reg No 3" required>
+
+
+
+                <button type="submit">Register Group</button>
+            </form>
+        </section>
+
+
+        <!-- Pending Students -->
+        <section class="registration-form">
+            <h2>No Group Yet?</h2>
+            <form class="support-form" id="form-year2">
+                <input type="text" name="RegNo" placeholder="Your Reg Number" required>
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+
+
+
+        <section class="registration-form">
+            <h2>Trip Shift Registration</h2>
+            <div id="shift1Status" class="shift-status shift-available">
+                Shift 1: 0/51 registered
+            </div>
+            <div id="shift2Status" class="shift-status shift-available">
+                Shift 2: 0/52 registered
+            </div>
+            <form id="tripForm">
+                <input type="text" id="tripName" placeholder="Full Name" required>
+                <input type="text" id="tripRegNo" placeholder="Registration Number" required>
+                <select id="tripShift" required>
+                    <option value="">Select Shift</option>
+                    <option value="shift1">Shift 1 (Max: 51 students)</option>
+                    <option value="shift2">Shift 2 (Max: 52 students)</option>
+                </select>
+                <button type="submit" id="tripSubmitBtn">Register for Trip</button>
+            </form>
+        </section>
+
+    </main>
+
+    <!-- Sidebar Script -->
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            const icon = themeToggle.querySelector('i');
+            icon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+        }
+
+        // Sidebar Toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    </script>
+    <!-- Firebase App and DB -->
+    <script type="module">
+        // Import Firebase modules - ADDED push and onValue
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import {
+            getDatabase,
+            ref,
+            set,
+            get,
+            push,
+            onValue  // Added onValue import
+        } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyD3oMlsv9C3Qepvkw_Y1JVfhVJiMwZLox4",
+            authDomain: "bsceee-webpage.firebaseapp.com",
+            databaseURL: "https://bsceee-webpage-default-rtdb.firebaseio.com",
+            projectId: "bsceee-webpage",
+            storageBucket: "bsceee-webpage.appspot.com",
+            messagingSenderId: "281106710079",
+            appId: "1:281106710079:web:2c6ab931bc3cab8e4e428a",
+            measurementId: "G-B1M7SSEZYP"
+        };
+
+        // Init Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Helper function to check if a registration number is already in any group
+        async function isRegInGroup(regNo) {
+            try {
+                const groupsRef = ref(db, 'groups');
+                const snapshot = await get(groupsRef);
+
+                if (!snapshot.exists()) return false;
+
+                const groups = snapshot.val();
+                for (let groupName in groups) {
+                    const group = groups[groupName];
+                    if (group.members && Array.isArray(group.members)) {
+                        const isInGroup = group.members.some(member => member.regNo === regNo);
+                        if (isInGroup) return true;
+                    }
+                }
+                return false;
+            } catch (error) {
+                console.error("Error checking groups:", error);
+                return false;
+            }
+        }
+
+        // 1. Individual Registration Form
+        const individualForm = document.forms['registration-form'];
+        individualForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = individualForm.Name.value.trim();
+            const regNo = individualForm.RegNo.value.trim().toUpperCase();
+            const phone = individualForm.Phone.value.trim();
+
+            if (!name || !regNo || !phone) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            const regRef = ref(db, 'registrations/' + regNo);
+
+            try {
+                const snapshot = await get(regRef);
+                if (snapshot.exists()) {
+                    alert("This Reg Number has already been used.");
+                } else {
+                    await set(regRef, {
+                        name,
+                        regNo,
+                        phone,
+                        timestamp: new Date().toISOString()
+                    });
+                    alert("Registration successful!");
+                    individualForm.reset();
+                }
+            } catch (err) {
+                console.error("Firebase error:", err);
+                alert("Something went wrong. Try again.");
+            }
+        });
+
+        // 2. Group Registration Form
+        const groupForm = document.forms['groupForm'];
+        groupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const groupName = document.getElementById("groupName").value.trim();
+            const regInputs = document.querySelectorAll(".regInput");
+            const regNos = [...regInputs].map(input => input.value.trim().toUpperCase());
+
+            // Validation
+            if (!groupName) {
+                alert("Please enter a group name!");
+                return;
+            }
+
+
+
+            // Check for empty registration numbers
+            if (regNos.some(regNo => !regNo)) {
+                alert("Please fill in all registration numbers!");
+                return;
+            }
+
+            // Check duplicates within form
+            if (new Set(regNos).size !== regNos.length) {
+                alert("Duplicate Reg Numbers in the same group!");
+                return;
+            }
+
+            try {
+                const membersArray = [];
+
+                // Check if group name already exists
+                const groupRef = ref(db, 'groups/' + groupName);
+                const groupSnap = await get(groupRef);
+                if (groupSnap.exists()) {
+                    alert("Group name already exists! Please choose a different name.");
+                    return;
+                }
+
+                // Check each registration number and build members array
+                for (let regNo of regNos) {
+                    const regRef = ref(db, 'registrations/' + regNo);
+                    const regSnap = await get(regRef);
+
+                    if (!regSnap.exists()) {
+                        alert(`RegNo ${regNo} is not registered for the semester!`);
+                        return;
+                    }
+
+                    if (await isRegInGroup(regNo)) {
+                        alert(`RegNo ${regNo} already belongs to another group!`);
+                        return;
+                    }
+
+                    // Add to members array
+                    membersArray.push({
+                        regNo: regNo,
+                        name: regSnap.val().name
+                    });
+                }
+
+                // Save group to Firebase with array structure
+                await set(groupRef, {
+                    groupName: groupName,
+                    members: membersArray,
+                    leader: regNos[0],
+                    timestamp: new Date().toISOString()
+                });
+
+                alert("Group Registered Successfully!");
+                groupForm.reset();
+
+            } catch (error) {
+                console.error("Error registering group:", error);
+                alert("Something went wrong. Please try again.");
+            }
+        });
+
+        // 3. Pending Students Form
+        const pendingForm = document.getElementById("form-year2");
+        pendingForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const regNo = pendingForm.RegNo.value.trim().toUpperCase();
+
+            if (!regNo) {
+                alert("Please enter your registration number!");
+                return;
+            }
+
+            try {
+                // Check if student is registered
+                const regRef = ref(db, 'registrations/' + regNo);
+                const regSnap = await get(regRef);
+
+                if (!regSnap.exists()) {
+                    alert("This Reg Number is not registered for the semester.");
+                    return;
+                }
+
+                // Check if student is already in a group
+                if (await isRegInGroup(regNo)) {
+                    alert("You are already in a group!");
+                    return;
+                }
+
+                // Check if already in pending list
+                const pendingRef = ref(db, 'pending/' + regNo);
+                const pendingSnap = await get(pendingRef);
+
+                if (pendingSnap.exists()) {
+                    alert("You are already in the pending list!");
+                    return;
+                }
+
+                // Add to pending list
+                await set(pendingRef, {
+                    regNo: regNo,
+                    name: regSnap.val().name,
+                    type: "pending grouping",
+                    submittedAt: new Date().toISOString()
+                });
+
+                alert("Request submitted! You have been added to the pending list.");
+                pendingForm.reset();
+
+            } catch (error) {
+                console.error("Error submitting pending request:", error);
+                alert("Something went wrong. Please try again.");
+            }
+        });
+
+        // Trip Shift Registration Functionality
+        const tripForm = document.getElementById('tripForm');
+        const shift1Status = document.getElementById('shift1Status');
+        const shift2Status = document.getElementById('shift2Status');
+        const tripShiftSelect = document.getElementById('tripShift');
+
+        // Track shift counts
+        let shift1Count = 0;
+        let shift2Count = 0;
+        const SHIFT1_MAX = 51;
+        const SHIFT2_MAX = 52;
+
+        // Function to update shift status display
+        function updateShiftStatus() {
+            shift1Status.textContent = `Shift 1: ${shift1Count}/${SHIFT1_MAX} registered`;
+            shift2Status.textContent = `Shift 2: ${shift2Count}/${SHIFT2_MAX} registered`;
+
+            // Update status colors
+            if (shift1Count >= SHIFT1_MAX) {
+                shift1Status.className = 'shift-status shift-full';
+                shift1Status.innerHTML += ' (FULL)';
+            } else {
+                shift1Status.className = 'shift-status shift-available';
+            }
+
+            if (shift2Count >= SHIFT2_MAX) {
+                shift2Status.className = 'shift-status shift-full';
+                shift2Status.innerHTML += ' (FULL)';
+            } else {
+                shift2Status.className = 'shift-status shift-available';
+            }
+
+            // Update select options
+            const shift1Option = tripShiftSelect.querySelector('option[value="shift1"]');
+            const shift2Option = tripShiftSelect.querySelector('option[value="shift2"]');
+
+            if (shift1Count >= SHIFT1_MAX) {
+                shift1Option.disabled = true;
+                shift1Option.textContent = 'Shift 1 (FULL - Max: 51 students)';
+            } else {
+                shift1Option.disabled = false;
+                shift1Option.textContent = 'Shift 1 (Max: 51 students)';
+            }
+
+            if (shift2Count >= SHIFT2_MAX) {
+                shift2Option.disabled = true;
+                shift2Option.textContent = 'Shift 2 (FULL - Max: 52 students)';
+            } else {
+                shift2Option.disabled = false;
+                shift2Option.textContent = 'Shift 2 (Max: 52 students)';
+            }
+        }
+
+        // Load current shift counts from Firebase
+        function loadShiftCounts() {
+            const shift1Ref = ref(db, 'trip/shift1');
+            const shift2Ref = ref(db, 'trip/shift2');
+
+            onValue(shift1Ref, (snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    shift1Count = Object.keys(data).length;
+                } else {
+                    shift1Count = 0;
+                }
+                updateShiftStatus();
+            });
+
+            onValue(shift2Ref, (snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    shift2Count = Object.keys(data).length;
+                } else {
+                    shift2Count = 0;
+                }
+                updateShiftStatus();
+            });
+        }
+
+        // Handle trip registration form submission
+        tripForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('tripName').value.trim();
+            const regNo = document.getElementById('tripRegNo').value.trim().toUpperCase();
+            const shift = document.getElementById('tripShift').value;
+
+            if (!name || !regNo || !shift) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            // Check if shift is full
+            if (shift === 'shift1' && shift1Count >= SHIFT1_MAX) {
+                alert("Shift 1 is full! Please select Shift 2.");
+                tripShiftSelect.value = 'shift2';
+                return;
+            }
+
+            if (shift === 'shift2' && shift2Count >= SHIFT2_MAX) {
+                alert("Shift 2 is full! Please select Shift 1.");
+                tripShiftSelect.value = 'shift1';
+                return;
+            }
+
+            // Check if registration number already registered for trip
+            const tripRef = ref(db, 'trip');
+            try {
+                const snapshot = await get(tripRef);
+                let alreadyRegistered = false;
+                let registeredShift = '';
+
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+
+                    // Check shift1
+                    if (data.shift1) {
+                        for (const key in data.shift1) {
+                            if (data.shift1[key].regNo === regNo) {
+                                alreadyRegistered = true;
+                                registeredShift = 'Shift 1';
+                                break;
+                            }
+                        }
+                    }
+
+                    // Check shift2
+                    if (!alreadyRegistered && data.shift2) {
+                        for (const key in data.shift2) {
+                            if (data.shift2[key].regNo === regNo) {
+                                alreadyRegistered = true;
+                                registeredShift = 'Shift 2';
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (alreadyRegistered) {
+                    alert(`Registration number ${regNo} is already registered for ${registeredShift}.`);
+                    return;
+                }
+
+                // Register for selected shift - FIXED: Using push correctly
+                const shiftRef = ref(db, `trip/${shift}`);
+                const newRegistrationRef = push(shiftRef);
+                await set(newRegistrationRef, {
+                    name: name,
+                    regNo: regNo,
+                    shift: shift,
+                    timestamp: new Date().toISOString()
+                });
+
+                alert(`Successfully registered for ${shift === 'shift1' ? 'Shift 1' : 'Shift 2'}!`);
+                tripForm.reset();
+
+            } catch (error) {
+                console.error("Error:", error);
+                alert("An error occurred. Please try again.");
+            }
+        });
+
+        // Load initial shift counts when page loads
+        loadShiftCounts();
+    </script>
+</body>
+
+</html>

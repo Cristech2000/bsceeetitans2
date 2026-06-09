@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="BSCEEE Y2S1">
+    <title>BSCEEE Y2S1 - Electrical Engineering</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="icon" href="icons/icon-192.png">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<!-- Top Nav -->
+<header>
+    <div id="overlay"></div>
+    <nav>
+        <div class="nav-left">
+            <button id="menuBtn"><i class="fas fa-bars"></i></button>
+            <div class="logo">
+                <div class="logo-text">
+                    <h1>Chuka University</h1>
+                    <p>Faculty of Engineering</p>
+                </div>
+            </div>
+        </div>
+        <div class="nav-actions">
+            <div id="adminIndicator" style="display: none;">
+                <i class="fas fa-crown"></i> Admin
+            </div>
+            <div class="notification-icon" id="notificationBell">
+                <a href="announcements.html">
+                    <i class="fas fa-bell"></i>
+                    <span id="notificationCount" class="notification-badge">0</span>
+                </a>
+            </div>
+            <button id="installButton" style="display: none;">
+                <i class="fas fa-download"></i> Install
+            </button>
+            <button id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+</header>
+
+<!-- Sidebar -->
+<div id="sidebar">
+    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+    <a href="timetable.html"><i class="fas fa-calendar"></i> Timetable</a>
+    <a href="assignments.html"><i class="fas fa-tasks"></i> Assignments</a>
+    <a href="studydocs.html"><i class="fas fa-book"></i> Study Documents</a>
+    <a href="announcements.html"><i class="fas fa-bullhorn"></i> Announcements</a>
+    <a href="practical-hub.html"><i class="fas fa-microchip"></i> Practical Hub</a>
+    <a href="gallery.html"><i class="fas fa-images"></i> Gallery</a>
+    <a href="sports.html"><i class="fas fa-futbol"></i> Sports</a>
+    <a href="personell.html"><i class="fas fa-users"></i> Personnel</a>
+    <a href="registration.html"><i class="fas fa-clipboard-list"></i> Registration</a>
+    <a href="support.html"><i class="fas fa-life-ring"></i> Academic Support</a>
+    <a href="admin-login.html" id="adminLoginLink"><i class="fas fa-lock"></i> Admin Login</a>
+    <a href="admin-dashboard.html" id="adminDashboardLink" style="display: none;"><i class="fas fa-cogs"></i> Dashboard</a>
+</div>
+
+<!-- Main Content -->
+<main class="content">
+    <!-- Section 1: Hero -->
+    <section class="hero" id="section-hero">
+        <div class="hero-text">
+            <h1 id="heroTitle">Bachelor of Science in Electrical and Electronics Engineering<br>Chuka University<br>2nd Year | Academic Year 2025–2026</h1>
+            <p id="heroSubtitle">Innovate. Learn. Engineer.</p>
+            <button class="admin-edit-btn" data-section="hero" onclick="openEditor('hero')" style="display: none;"><i class="fas fa-edit"></i> Edit Hero</button>
+        </div>
+    </section>
+
+    <!-- Section 2: About -->
+    <section class="about" id="section-about">
+        <h2>About This Site</h2>
+        <p id="aboutContent">The BSCEEE Y2S1 class website is a centralized digital space designed to foster academic excellence, unity, and streamlined communication for students pursuing a Bachelor of Science in Electrical and Electronics Engineering at Chuka University.</p>
+        <button class="admin-edit-btn" data-section="about" onclick="openEditor('about')" style="display: none;"><i class="fas fa-edit"></i> Edit About</button>
+    </section>
+
+    <!-- Section 3: Features -->
+    <section class="features" id="section-features">
+        <div class="image-row">
+            <figure><img src="https://via.placeholder.com/180x180?text=Class+Photo" alt="Class photo"></figure>
+            <figure><img src="https://via.placeholder.com/180x180?text=Lab+Session" alt="Lab session"></figure>
+            <figure><img src="https://via.placeholder.com/180x180?text=Project" alt="Project"></figure>
+        </div>
+        <div class="features-text">
+            <span id="featuresContent">🧠 <strong>Who We Are</strong><br>BSCEEE Y2S1 is a class of 102 ambitious student engineers who value academic excellence, innovation, and teamwork.</span>
+            <button class="admin-edit-btn" data-section="features" onclick="openEditor('features')" style="display: none;"><i class="fas fa-edit"></i> Edit Content</button>
+        </div>
+    </section>
+
+    <!-- Section 4: News -->
+    <section class="news" id="section-news">
+        <h2><i class="fas fa-newspaper"></i> Latest News</h2>
+        <div id="newsContent">
+            <p>📰 Loading news...</p>
+        </div>
+        <button class="admin-edit-btn" data-section="news" onclick="openEditor('news')" style="display: none;"><i class="fas fa-edit"></i> Edit News</button>
+    </section>
+
+    <!-- Section 5: Fun Facts -->
+    <section class="fun-facts" id="section-funfacts">
+        <h2><i class="fas fa-lightbulb"></i> Fun Engineering Facts</h2>
+        <ul id="funFactsContent">
+            <li>Loading facts...</li>
+        </ul>
+        <button class="admin-edit-btn" data-section="funFacts" onclick="openEditor('funFacts')" style="display: none;"><i class="fas fa-edit"></i> Edit Fun Facts</button>
+    </section>
+
+    <!-- Section 6: Spotlight -->
+    <section class="spotlight" id="section-spotlight">
+        <h2><i class="fas fa-star"></i> Student Spotlight</h2>
+        <div id="spotlightContent">
+            <p>Loading spotlight...</p>
+        </div>
+        <button class="admin-edit-btn" data-section="spotlight" onclick="openEditor('spotlight')" style="display: none;"><i class="fas fa-edit"></i> Edit Spotlight</button>
+    </section>
+
+    <!-- Section 7: Quiz -->
+    <section class="quiz" id="section-quiz">
+        <h2><i class="fas fa-brain"></i> Weekly Quiz</h2>
+        <div id="quizContent">
+            <p>Loading quiz...</p>
+        </div>
+        <button class="admin-edit-btn" data-section="quiz" onclick="openEditor('quiz')" style="display: none;"><i class="fas fa-edit"></i> Edit Quiz</button>
+    </section>
+
+    <!-- Custom Sections Container -->
+    <div id="customSectionsContainer"></div>
+</main>
+
+<!-- Modals -->
+<div id="adminModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="closeBtn" onclick="closeEditor()">&times;</span>
+        <h3 id="modalTitle">Edit Content</h3>
+        <textarea id="contentEditor"></textarea>
+        <div class="modal-buttons">
+            <button onclick="closeEditor()" class="btn-cancel">Cancel</button>
+            <button onclick="saveContent()" class="btn-save">Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+    <div class="footer-content">
+        <div class="footer-links">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="https://www.chuka.ac.ke" target="_blank">Chuka University Website</a></li>
+                <li><a href="https://portal.chuka.ac.ke" target="_blank">Student Portal</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2025 BSCEEE Y2S1 · Chuka University</p>
+    </div>
+</footer>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-compat.js"></script>
+
+<!-- Main App -->
+<script src="app.js"></script>
+</body>
+</html>-
