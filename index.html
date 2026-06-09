@@ -2,25 +2,253 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>BSCEEE Y2S1 - Electrical & Electronics Engineering</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSCEEE Y2S1 - Electrical Engineering</title>
     
-    <!-- PWA -->
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="pngegg.png">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
     
-    <!-- Styles -->
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="pngegg.png">
-    
-    <!-- Font Awesome -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #004080;
+            --primary-dark: #003366;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+        }
+        
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border: #334155;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+        
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-primary);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 0.75rem 1rem;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        #menuBtn {
+            background: var(--primary);
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            padding: 0.6rem 0.8rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logo h1 {
+            font-size: 1rem;
+            color: var(--primary);
+        }
+        
+        .logo p {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+        
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        #themeToggle {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            font-size: 1rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        /* Sidebar */
+        #sidebar {
+            position: fixed;
+            left: -280px;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg-primary);
+            padding: 70px 0 20px;
+            transition: left 0.3s;
+            z-index: 999;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+        }
+        
+        #sidebar.active {
+            left: 0;
+        }
+        
+        #sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 1.5rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            border-left: 3px solid transparent;
+        }
+        
+        #sidebar a:hover {
+            background: var(--bg-secondary);
+            border-left-color: var(--primary);
+        }
+        
+        #sidebar a i {
+            width: 20px;
+            color: var(--primary);
+        }
+        
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        
+        #overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Main Content */
+        .content {
+            padding-top: 70px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        
+        .page-content {
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Cards */
+        section {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+        }
+        
+        h1, h2, h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            text-align: center;
+            padding: 3rem;
+        }
+        
+        .hero h1, .hero p {
+            color: white;
+        }
+        
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 0.6rem;
+            margin: 0.5rem 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .logo p { display: none; }
+            .content { padding-top: 60px; }
+        }
+    </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-<!-- ==================== HEADER & NAVIGATION ==================== -->
 <div id="overlay"></div>
 
 <header>
@@ -28,329 +256,194 @@
         <div class="nav-left">
             <button id="menuBtn"><i class="fas fa-bars"></i></button>
             <div class="logo">
-                <img src="pngegg.png" alt="Logo" onerror="this.src='https://via.placeholder.com/45'">
                 <div class="logo-text">
-                    <h1>Chuka University</h1>
-                    <p>Faculty of Engineering</p>
+                    <h1>⚡ BSCEEE Y2S1</h1>
+                    <p>Chuka University</p>
                 </div>
             </div>
         </div>
         <div class="nav-actions">
-            <div id="adminIndicator" style="display: none;">
-                <i class="fas fa-crown"></i> Admin
-            </div>
-            <div class="notification-icon" id="notificationBell">
-                <a href="#" onclick="showPage('announcements'); return false;">
-                    <i class="fas fa-bell"></i>
-                    <span id="notificationCount" class="notification-badge">0</span>
-                </a>
-            </div>
-            <button id="installButton" style="display: none;">
-                <i class="fas fa-download"></i> Install
-            </button>
-            <button id="themeToggle">
-                <i class="fas fa-moon"></i>
-            </button>
+            <div id="adminIndicator" style="display: none;"><i class="fas fa-crown"></i> Admin</div>
+            <button id="themeToggle"><i class="fas fa-moon"></i></button>
         </div>
     </nav>
 </header>
 
-<!-- Sidebar Navigation -->
 <div id="sidebar">
     <a href="#" onclick="showPage('home'); return false;"><i class="fas fa-home"></i> Home</a>
     <a href="#" onclick="showPage('timetable'); return false;"><i class="fas fa-calendar"></i> Timetable</a>
-    <a href="#" onclick="showPage('assignments'); return false;"><i class="fas fa-tasks"></i> Assignments</a>
-    <a href="#" onclick="showPage('studydocs'); return false;"><i class="fas fa-book"></i> Study Documents</a>
+    <a href="#" onclick="showPage('studydocs'); return false;"><i class="fas fa-book"></i> Study Docs</a>
     <a href="#" onclick="showPage('announcements'); return false;"><i class="fas fa-bullhorn"></i> Announcements</a>
-    <a href="#" onclick="showPage('practicalHub'); return false;"><i class="fas fa-microchip"></i> Practical Hub</a>
-    <a href="#" onclick="showPage('gallery'); return false;"><i class="fas fa-images"></i> Gallery</a>
-    <a href="#" onclick="showPage('sports'); return false;"><i class="fas fa-futbol"></i> Sports</a>
-    <a href="#" onclick="showPage('personnel'); return false;"><i class="fas fa-users"></i> Personnel</a>
     <a href="#" onclick="showPage('registration'); return false;"><i class="fas fa-clipboard-list"></i> Registration</a>
-    <a href="#" onclick="showPage('support'); return false;"><i class="fas fa-life-ring"></i> Academic Support</a>
-    <a href="#" onclick="showPage('adminLogin'); return false;" id="adminLoginLink"><i class="fas fa-lock"></i> Admin Login</a>
+    <a href="#" onclick="showPage('support'); return false;"><i class="fas fa-life-ring"></i> Support</a>
+    <a href="#" onclick="showPage('adminLogin'); return false;" id="adminLoginLink"><i class="fas fa-lock"></i> Admin</a>
     <a href="#" onclick="showPage('adminDashboard'); return false;" id="adminDashboardLink" style="display: none;"><i class="fas fa-cogs"></i> Dashboard</a>
 </div>
 
-<!-- ==================== MAIN CONTENT ==================== -->
 <main class="content">
+    <!-- HOME PAGE -->
+    <div id="page-home" class="page-content">
+        <div class="hero">
+            <h1>Bachelor of Science in Electrical and Electronics Engineering</h1>
+            <p>Chuka University | 2nd Year | Academic Year 2025–2026</p>
+        </div>
+        
+        <section>
+            <h2>About This Site</h2>
+            <p>The BSCEEE Y2S1 class website is a centralized digital space for students pursuing Electrical and Electronics Engineering at Chuka University.</p>
+        </section>
+        
+        <section>
+            <h2>Latest News</h2>
+            <div id="newsContent">Loading news...</div>
+        </section>
+        
+        <section>
+            <h2>Fun Engineering Facts</h2>
+            <ul id="funFactsContent">
+                <li>Loading facts...</li>
+            </ul>
+        </section>
+    </div>
     
-    <!-- ===== PAGE: HOME ===== -->
-    <div id="page-home" class="page-content active-page">
-        <div style="text-align: center; padding: 20px;">
-            <h1 style="color: var(--primary);">Welcome to BSCEEE Y2S1</h1>
-            <p>Loading content... Please wait.</p>
-        </div>
-    </div>
-
-    <!-- ===== PAGE: TIMETABLE ===== -->
+    <!-- TIMETABLE PAGE -->
     <div id="page-timetable" class="page-content" style="display: none;">
-        <div class="timetable-container">
-            <div class="timetable-tabs">
-                <button class="timetable-tab active" onclick="showTimetableType('regular')">Class Timetable</button>
-                <button class="timetable-tab" onclick="showTimetableType('exam')">Exam Timetable</button>
-            </div>
-            <div id="regularTimetable" class="timetable-section">
-                <h2>CLASS TIMETABLE</h2>
-                <div id="regularPeriod" class="academic-period">Loading...</div>
-                <div id="regularTimetableContent" class="loading"><i class="fas fa-spinner fa-spin"></i> Loading timetable...</div>
-            </div>
-            <div id="examTimetable" class="timetable-section" style="display: none;">
-                <h2>EXAMINATION TIMETABLE</h2>
-                <div id="examPeriod" class="academic-period">Loading...</div>
-                <div id="examTimetableContent" class="loading"><i class="fas fa-spinner fa-spin"></i> Loading exam schedule...</div>
-            </div>
-        </div>
+        <section>
+            <h2>Class Timetable</h2>
+            <div id="regularTimetableContent">Loading...</div>
+        </section>
+        <section>
+            <h2>Exam Timetable</h2>
+            <div id="examTimetableContent">Loading...</div>
+        </section>
     </div>
-
-    <!-- ===== PAGE: ASSIGNMENTS ===== -->
-    <div id="page-assignments" class="page-content" style="display: none;">
-        <div style="text-align: center; padding: 100px 20px;">
-            <h2>📁 Assignments</h2>
-            <p>We're currently on break. Assignments will be posted here once the new semester begins.</p>
-        </div>
-    </div>
-
-    <!-- ===== PAGE: STUDY DOCUMENTS ===== -->
+    
+    <!-- STUDY DOCS PAGE -->
     <div id="page-studydocs" class="page-content" style="display: none;">
-        <div style="max-width: 1200px; margin: 0 auto; padding: 20px;">
-            <h2 style="margin-bottom: 20px;">Study Documents</h2>
-            <div id="studyDocsContainer" class="loading"><i class="fas fa-spinner fa-spin"></i> Loading documents...</div>
-        </div>
+        <section>
+            <h2>Study Documents</h2>
+            <div id="studyDocsContainer">Loading documents...</div>
+        </section>
     </div>
-
-    <!-- ===== PAGE: ANNOUNCEMENTS ===== -->
+    
+    <!-- ANNOUNCEMENTS PAGE -->
     <div id="page-announcements" class="page-content" style="display: none;">
-        <div style="text-align: center; padding: 40px 20px; background: linear-gradient(135deg, #004080 0%, #0066cc 100%); color: white;">
-            <h1><i class="fas fa-bullhorn"></i> Announcements</h1>
-            <p>Stay updated with the latest news and information</p>
-        </div>
-        <div style="display: flex; gap: 10px; justify-content: center; margin: 20px; flex-wrap: wrap;">
-            <button class="filter-btn active" onclick="filterAnnouncements('all')">All</button>
-            <button class="filter-btn" onclick="filterAnnouncements('important')">Important</button>
-            <button class="filter-btn" onclick="filterAnnouncements('urgent')">Urgent</button>
-            <button class="filter-btn" onclick="filterAnnouncements('event')">Events</button>
-            <button class="filter-btn" onclick="filterAnnouncements('info')">Information</button>
-        </div>
-        <div id="announcementsContainer" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
-            <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading announcements...</div>
-        </div>
+        <section>
+            <h2>Announcements</h2>
+            <div id="announcementsContainer">Loading announcements...</div>
+        </section>
     </div>
-
-    <!-- ===== PAGE: PRACTICAL HUB ===== -->
-    <div id="page-practicalHub" class="page-content" style="display: none;">
-        <div style="padding: 20px;">
-            <h1 style="text-align: center;">Practical Electronics Hub</h1>
-            <p style="text-align: center;">Affordable, Tested Electronics Kits for EEE Practicals</p>
-            <div style="display: flex; gap: 10px; justify-content: center; margin: 20px; flex-wrap: wrap;">
-                <select id="categoryFilter" onchange="filterProducts()" style="padding: 10px; border-radius: 8px;">
-                    <option value="all">All Categories</option>
-                    <option value="arduino">Arduino Kits</option>
-                    <option value="components">Components</option>
-                    <option value="tools">Tools</option>
-                </select>
-                <input type="text" id="searchBox" placeholder="Search products..." onkeyup="filterProducts()" style="padding: 10px; border-radius: 8px;">
-            </div>
-            <div id="productsContainer" class="product-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
-                <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading products...</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== PAGE: GALLERY ===== -->
-    <div id="page-gallery" class="page-content" style="display: none;">
-        <div style="padding: 80px 20px 20px;">
-            <h2>Gallery</h2>
-            <p>Gallery content will appear here.</p>
-        </div>
-    </div>
-
-    <!-- ===== PAGE: SPORTS ===== -->
-    <div id="page-sports" class="page-content" style="display: none;">
-        <div style="padding: 80px 20px 20px;">
-            <h2>Sports</h2>
-            <p>Football and volleyball are our main sports.</p>
-        </div>
-    </div>
-
-    <!-- ===== PAGE: PERSONNEL ===== -->
-    <div id="page-personnel" class="page-content" style="display: none;">
-        <div style="padding: 80px 20px 20px;">
-            <h2>Personnel</h2>
-            <div id="classLeadershipGrid" class="personnel-grid"><div class="loading">Loading...</div></div>
-            <div id="facultyLeadershipGrid" class="personnel-grid"><div class="loading">Loading...</div></div>
-            <h3>Lecturers</h3>
-            <div id="lecturersGrid" class="personnel-grid"><div class="loading">Loading...</div></div>
-        </div>
-    </div>
-
-    <!-- ===== PAGE: REGISTRATION ===== -->
+    
+    <!-- REGISTRATION PAGE -->
     <div id="page-registration" class="page-content" style="display: none;">
-        <div style="max-width: 600px; margin: 80px auto 20px; padding: 20px;">
-            <div style="background: var(--bg-primary); padding: 30px; border-radius: 15px; margin-bottom: 30px;">
-                <h2>Semester Registration</h2>
-                <form id="individualRegForm">
-                    <input type="text" name="Name" placeholder="Full Name" required style="width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px;">
-                    <input type="text" name="RegNo" placeholder="Registration Number" required style="width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px;">
-                    <input type="tel" name="Phone" placeholder="Phone Number" required style="width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px;">
-                    <button type="submit" style="width: 100%; padding: 12px; background: #004080; color: white; border: none; border-radius: 8px;">Register</button>
-                </form>
-            </div>
-            <div style="background: var(--bg-primary); padding: 30px; border-radius: 15px;">
-                <h2>Trip Shift Registration</h2>
-                <div id="shift1Status" style="margin: 10px 0; padding: 10px; border-radius: 5px; text-align: center;">Shift 1: Loading...</div>
-                <div id="shift2Status" style="margin: 10px 0; padding: 10px; border-radius: 5px; text-align: center;">Shift 2: Loading...</div>
-                <form id="tripForm">
-                    <input type="text" id="tripName" placeholder="Full Name" required style="width: 100%; padding: 12px; margin: 10px 0;">
-                    <input type="text" id="tripRegNo" placeholder="Registration Number" required style="width: 100%; padding: 12px; margin: 10px 0;">
-                    <select id="tripShift" required style="width: 100%; padding: 12px; margin: 10px 0;">
-                        <option value="">Select Shift</option>
-                        <option value="shift1">Shift 1</option>
-                        <option value="shift2">Shift 2</option>
-                    </select>
-                    <button type="submit" style="width: 100%; padding: 12px; background: #004080; color: white; border: none; border-radius: 8px;">Register</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== PAGE: SUPPORT ===== -->
-    <div id="page-support" class="page-content" style="display: none;">
-        <div style="padding: 80px 20px 20px; max-width: 600px; margin: 0 auto;">
-            <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap;">
-                <button class="year-btn active" onclick="showSupportYear('year1')">1st Year</button>
-                <button class="year-btn" onclick="showSupportYear('year2')">2nd Year</button>
-                <button class="year-btn" onclick="showSupportYear('year3')">3rd Year</button>
-                <button class="year-btn" onclick="showSupportYear('year4')">4th Year</button>
-                <button class="year-btn" onclick="showSupportYear('year5')">5th Year</button>
-            </div>
-            <div id="support-year1" class="support-year-content" style="background: var(--bg-primary); padding: 30px; border-radius: 15px;">
-                <h2>Missing Marks Complaint (1st Year)</h2>
-                <form id="complaint-year1">
-                    <input name="Name" placeholder="Your Name" required style="width: 100%; padding: 12px; margin: 10px 0;">
-                    <input name="RegNo" placeholder="Registration Number" required style="width: 100%; padding: 12px; margin: 10px 0;">
-                    <input name="Lecturer" placeholder="Lecturer's Name" required style="width: 100%; padding: 12px; margin: 10px 0;">
-                    <select name="Unit" required style="width: 100%; padding: 12px; margin: 10px 0;"><option value="">Select Unit</option></select>
-                    <button type="submit" style="width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 8px;">Submit</button>
-                </form>
-            </div>
-            <div id="support-year2" class="support-year-content" style="display: none; background: var(--bg-primary); padding: 30px; border-radius: 15px;">
-                <h2>Missing Marks Complaint (2nd Year)</h2>
-                <form id="complaint-year2">
-                    <input name="RegNo" placeholder="Registration Number" required style="width: 100%; padding: 12px; margin: 10px 0;">
-                    <select name="Unit" required style="width: 100%; padding: 12px; margin: 10px 0;"><option value="">Select Unit</option></select>
-                    <button type="submit" style="width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 8px;">Submit</button>
-                </form>
-                <hr style="margin: 20px 0;">
-                <h2>Anonymous Class Issue</h2>
-                <form id="anonymous-year2">
-                    <select name="IssueType" required style="width: 100%; padding: 12px; margin: 10px 0;"><option value="">Select Issue</option><option value="teaching">Teaching Quality</option></select>
-                    <textarea name="Description" placeholder="Describe the issue..." style="width: 100%; height: 100px; padding: 12px; margin: 10px 0;" required></textarea>
-                    <button type="submit" style="width: 100%; padding: 12px; background: #17a2b8; color: white; border: none; border-radius: 8px;">Submit Anonymously</button>
-                </form>
-            </div>
-            <div id="support-year3" class="support-year-content" style="display: none;"><p>Year 3 form</p></div>
-            <div id="support-year4" class="support-year-content" style="display: none;"><p>Year 4 form</p></div>
-            <div id="support-year5" class="support-year-content" style="display: none;"><p>Year 5 form</p></div>
-        </div>
-    </div>
-
-    <!-- ===== PAGE: ADMIN LOGIN ===== -->
-    <div id="page-adminLogin" class="page-content" style="display: none;">
-        <div style="max-width: 400px; margin: 100px auto; background: var(--bg-primary); padding: 40px; border-radius: 20px;">
-            <div style="text-align: center;">
-                <i class="fas fa-lock fa-3x" style="color: #004080;"></i>
-                <h1>Admin Login</h1>
-            </div>
-            <div id="loginErrorMessage" style="display: none; background: #fee; color: #c33; padding: 10px; border-radius: 5px; margin: 15px 0;"></div>
-            <form id="adminLoginForm">
-                <input type="email" id="adminEmail" placeholder="Admin Email" required style="width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px;">
-                <input type="password" id="adminPassword" placeholder="Password" required style="width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px;">
-                <button type="submit" style="width: 100%; padding: 12px; background: #004080; color: white; border: none; border-radius: 8px;">Login</button>
+        <section>
+            <h2>Semester Registration</h2>
+            <form id="individualRegForm">
+                <input type="text" name="Name" placeholder="Full Name" required>
+                <input type="text" name="RegNo" placeholder="Registration Number" required>
+                <input type="tel" name="Phone" placeholder="Phone Number" required>
+                <button type="submit">Register</button>
             </form>
-            <div style="text-align: center; margin-top: 20px;"><a href="#" onclick="showPage('home'); return false;">← Back to Home</a></div>
-        </div>
+        </section>
+        
+        <section>
+            <h2>Trip Shift Registration</h2>
+            <div id="shift1Status">Shift 1: Loading...</div>
+            <div id="shift2Status">Shift 2: Loading...</div>
+            <form id="tripForm">
+                <input type="text" id="tripName" placeholder="Full Name" required>
+                <input type="text" id="tripRegNo" placeholder="Registration Number" required>
+                <select id="tripShift" required>
+                    <option value="">Select Shift</option>
+                    <option value="shift1">Shift 1</option>
+                    <option value="shift2">Shift 2</option>
+                </select>
+                <button type="submit">Register for Trip</button>
+            </form>
+        </section>
     </div>
-
-    <!-- ===== PAGE: ADMIN DASHBOARD ===== -->
+    
+    <!-- SUPPORT PAGE -->
+    <div id="page-support" class="page-content" style="display: none;">
+        <section>
+            <h2>Academic Support</h2>
+            <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+                <button onclick="showSupportYear('year1')">1st Year</button>
+                <button onclick="showSupportYear('year2')">2nd Year</button>
+            </div>
+            <div id="support-year1">
+                <form id="complaint-year1">
+                    <input name="Name" placeholder="Your Name" required>
+                    <input name="RegNo" placeholder="Registration Number" required>
+                    <input name="Lecturer" placeholder="Lecturer's Name" required>
+                    <select name="Unit"><option value="EENG111">EENG 111</option></select>
+                    <button type="submit">Submit Complaint</button>
+                </form>
+            </div>
+            <div id="support-year2" style="display: none;">
+                <form id="complaint-year2">
+                    <input name="RegNo" placeholder="Registration Number" required>
+                    <select name="Unit"><option value="EENG291">EENG 291</option></select>
+                    <button type="submit">Submit Complaint</button>
+                </form>
+                <form id="anonymous-year2" style="margin-top: 20px;">
+                    <select name="IssueType"><option value="teaching">Teaching Quality</option></select>
+                    <textarea name="Description" placeholder="Describe the issue..." rows="3"></textarea>
+                    <button type="submit">Submit Anonymously</button>
+                </form>
+            </div>
+        </section>
+    </div>
+    
+    <!-- ADMIN LOGIN PAGE -->
+    <div id="page-adminLogin" class="page-content" style="display: none;">
+        <section style="max-width: 400px; margin: 0 auto;">
+            <h2>Admin Login</h2>
+            <div id="loginError" style="color: red; display: none;"></div>
+            <form id="adminLoginForm">
+                <input type="email" id="adminEmail" placeholder="Admin Email" required>
+                <input type="password" id="adminPassword" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+            <p style="margin-top: 1rem; text-align: center;"><a href="#" onclick="showPage('home'); return false;">← Back to Home</a></p>
+        </section>
+    </div>
+    
+    <!-- ADMIN DASHBOARD PAGE -->
     <div id="page-adminDashboard" class="page-content" style="display: none;">
-        <div style="padding: 80px 20px 20px;">
-            <h1>Admin Dashboard</h1>
-            <div id="adminDashboardContent"></div>
-            <button onclick="logout()" style="background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 8px; margin-top: 20px;">Logout</button>
-        </div>
+        <section>
+            <h2>Admin Dashboard</h2>
+            <div id="adminDashboardContent">Welcome, Admin!</div>
+            <button onclick="logout()" style="background: #dc3545; margin-top: 1rem;">Logout</button>
+        </section>
     </div>
-
 </main>
 
-<!-- ==================== MODALS ==================== -->
-<div id="adminModal" style="display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7);">
-    <div style="background: var(--bg-primary); margin: 50px auto; padding: 30px; border-radius: 15px; max-width: 600px; width: 90%;">
-        <span onclick="closeEditor()" style="float: right; font-size: 28px; cursor: pointer;">&times;</span>
-        <h3 id="modalTitle">Edit Content</h3>
-        <textarea id="contentEditor" style="width: 100%; height: 300px; padding: 15px; margin: 20px 0; border-radius: 8px;"></textarea>
-        <button onclick="closeEditor()" style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 5px;">Cancel</button>
-        <button onclick="saveContent()" style="padding: 10px 20px; background: #004080; color: white; border: none; border-radius: 5px;">Save</button>
-    </div>
-</div>
-
-<div id="productDetailsModal" style="display: none; position: fixed; z-index: 10001; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8);"></div>
-
-<!-- ==================== FOOTER ==================== -->
-<footer class="site-footer">
-    <div class="footer-content">
-        <div class="footer-links">
-            <h3>Quick Links</h3>
-            <ul>
-                <li><a href="https://www.chuka.ac.ke" target="_blank">Chuka University Website</a></li>
-                <li><a href="https://portal.chuka.ac.ke" target="_blank">Student Portal</a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <p>&copy; 2025 BSCEEE Y2S1 · Chuka University</p>
-    </div>
+<footer>
+    <p>&copy; 2025 BSCEEE Y2S1 · Chuka University</p>
 </footer>
 
-<!-- ==================== FIREBASE & APP SCRIPTS ==================== -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-
 <script>
-// ==================== SIMPLIFIED APP SCRIPT (FIXED) ====================
-
-// Firebase Config
+// ==================== FIREBASE ====================
 const firebaseConfig = {
     apiKey: "AIzaSyD3oMlsv9C3Qepvkw_Y1JVfhVJiMwZLox4",
     authDomain: "bsceee-webpage.firebaseapp.com",
     databaseURL: "https://bsceee-webpage-default-rtdb.firebaseio.com",
     projectId: "bsceee-webpage",
-    storageBucket: "bsceee-webpage.appspot.com",
-    messagingSenderId: "281106710079",
-    appId: "1:281106710079:web:2c6ab931bc3cab8e4e428a"
+    storageBucket: "bsceee-webpage.appspot.com"
 };
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const auth = firebase.auth();
 
-// Global vars
-let currentPage = 'home';
-let isAdmin = false;
-let allAnnouncements = [];
-let allProducts = [];
-
 // ==================== PAGE NAVIGATION ====================
 function showPage(pageName) {
     document.querySelectorAll('.page-content').forEach(page => {
         page.style.display = 'none';
     });
-    
-    const targetPage = document.getElementById(`page-${pageName}`);
-    if (targetPage) targetPage.style.display = 'block';
-    
-    currentPage = pageName;
+    const target = document.getElementById(`page-${pageName}`);
+    if (target) target.style.display = 'block';
     
     // Close sidebar on mobile
     const sidebar = document.getElementById('sidebar');
@@ -362,337 +455,184 @@ function showPage(pageName) {
     
     // Load page data
     if (pageName === 'home') loadHomeContent();
-    else if (pageName === 'studydocs') loadStudyDocuments();
+    else if (pageName === 'studydocs') loadStudyDocs();
     else if (pageName === 'announcements') loadAnnouncements();
-    else if (pageName === 'practicalHub') loadProducts();
-    else if (pageName === 'personnel') { loadClassLeadership(); loadFacultyLeadership(); loadLecturers(); }
     else if (pageName === 'timetable') loadTimetable();
+    else if (pageName === 'registration') loadShiftCounts();
 }
 
 // ==================== HOME CONTENT ====================
 function loadHomeContent() {
-    const homePage = document.getElementById('page-home');
-    homePage.innerHTML = `
-        <div style="padding: 20px;">
-            <div style="background: linear-gradient(135deg, #004080, #0066cc); color: white; padding: 60px 20px; text-align: center; border-radius: 20px; margin-bottom: 30px;">
-                <h1>Bachelor of Science in Electrical and Electronics Engineering</h1>
-                <p>Chuka University | 2nd Year | Academic Year 2025–2026</p>
-            </div>
-            
-            <div style="background: var(--bg-primary); border-radius: 20px; padding: 30px; margin-bottom: 30px; border-left: 4px solid #004080;">
-                <h2>About This Site</h2>
-                <p>The BSCEEE Y2S1 class website is a centralized digital space designed to foster academic excellence, unity, and streamlined communication for students pursuing a Bachelor of Science in Electrical and Electronics Engineering at Chuka University.</p>
-            </div>
-            
-            <div style="background: var(--bg-primary); border-radius: 20px; padding: 30px; margin-bottom: 30px;">
-                <h2>Latest News</h2>
-                <div id="newsContent"><p>Loading news...</p></div>
-            </div>
-            
-            <div style="background: var(--bg-primary); border-radius: 20px; padding: 30px;">
-                <h2>Fun Engineering Facts</h2>
-                <ul id="funFactsContent"><li>Loading facts...</li></ul>
-            </div>
-        </div>
-    `;
-    
-    // Load dynamic content
-    db.ref('websiteContent/news').on('value', (snap) => {
-        const data = snap.val();
-        if (data && document.getElementById('newsContent')) {
-            document.getElementById('newsContent').innerHTML = data.content || '<p>No news available.</p>';
-        }
+    db.ref('websiteContent/news').once('value', snap => {
+        const newsDiv = document.getElementById('newsContent');
+        if (snap.val()) newsDiv.innerHTML = snap.val().content || '<p>No news available.</p>';
+        else newsDiv.innerHTML = '<p>No news available.</p>';
     });
     
-    db.ref('websiteContent/funFacts').on('value', (snap) => {
-        const data = snap.val();
-        if (data && data.items && document.getElementById('funFactsContent')) {
-            const ul = document.getElementById('funFactsContent');
-            ul.innerHTML = '';
-            data.items.forEach(fact => { const li = document.createElement('li'); li.textContent = fact; ul.appendChild(li); });
+    db.ref('websiteContent/funFacts').once('value', snap => {
+        const factsDiv = document.getElementById('funFactsContent');
+        if (snap.val() && snap.val().items) {
+            factsDiv.innerHTML = snap.val().items.map(f => `<li>${f}</li>`).join('');
         }
     });
 }
 
-// ==================== STUDY DOCUMENTS ====================
-function loadStudyDocuments() {
+// ==================== STUDY DOCS ====================
+function loadStudyDocs() {
     const container = document.getElementById('studyDocsContainer');
-    container.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading documents...</div>';
+    container.innerHTML = '<div class="loading">Loading documents...</div>';
     
-    db.ref('studyDocuments').once('value').then(snapshot => {
-        const data = snapshot.val();
+    db.ref('studyDocuments').once('value', snap => {
+        const data = snap.val();
         if (!data) { container.innerHTML = '<p>No documents available.</p>'; return; }
         
         let html = '';
-        const semesters = Object.keys(data).sort();
-        
-        semesters.forEach(sem => {
-            const semesterName = sem.replace('year', 'Year ').replace('sem', ' Semester ');
-            html += `<div style="margin-bottom: 20px;"><button class="collapsible" style="width: 100%; text-align: left; padding: 15px; background: var(--bg-secondary); border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">📚 ${semesterName}</button>`;
-            html += `<div class="collapsible-content" style="display: none; padding: 15px;">`;
-            
-            const courses = Object.keys(data[sem]).sort();
-            courses.forEach(course => {
-                html += `<div style="margin-bottom: 15px;"><strong>${course}</strong><ul style="margin-top: 10px; margin-left: 20px;">`;
-                const docs = Object.values(data[sem][course]);
-                docs.forEach(doc => {
+        for (const sem in data) {
+            html += `<h3>${sem.replace('year', 'Year ').replace('sem', ' Semester ')}</h3>`;
+            for (const course in data[sem]) {
+                html += `<strong>${course}</strong><ul>`;
+                for (const docId in data[sem][course]) {
+                    const doc = data[sem][course][docId];
                     html += `<li><a href="${doc.driveLink}" target="_blank">📄 ${doc.title}</a></li>`;
-                });
-                html += `</ul></div>`;
-            });
-            html += `</div></div>`;
-        });
-        
+                }
+                html += `</ul>`;
+            }
+        }
         container.innerHTML = html;
-        
-        // Add click handlers
-        document.querySelectorAll('.collapsible').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const content = this.nextElementSibling;
-                content.style.display = content.style.display === 'none' ? 'block' : 'none';
-            });
-        });
-    }).catch(err => { container.innerHTML = '<p>Error loading documents.</p>'; });
+    }).catch(() => container.innerHTML = '<p>Error loading documents.</p>');
 }
 
 // ==================== ANNOUNCEMENTS ====================
 function loadAnnouncements() {
     const container = document.getElementById('announcementsContainer');
-    container.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading announcements...</div>';
+    container.innerHTML = '<div class="loading">Loading announcements...</div>';
     
-    db.ref('announcements').orderByChild('createdAt').once('value').then(snapshot => {
-        const data = snapshot.val();
+    db.ref('announcements').orderByChild('createdAt').once('value', snap => {
+        const data = snap.val();
         if (!data) { container.innerHTML = '<p>No announcements yet.</p>'; return; }
         
-        allAnnouncements = Object.keys(data).map(key => ({ id: key, ...data[key] }))
-            .filter(a => a.status === 'active')
-            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        let html = '';
+        const announcements = Object.values(data).filter(a => a.status === 'active').sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
         
-        if (allAnnouncements.length === 0) { container.innerHTML = '<p>No announcements yet.</p>'; return; }
-        
-        displayAnnouncements(allAnnouncements);
-        updateBadge();
-    }).catch(err => { container.innerHTML = '<p>Error loading announcements.</p>'; });
-}
-
-function displayAnnouncements(announcements) {
-    const container = document.getElementById('announcementsContainer');
-    container.innerHTML = '';
-    
-    announcements.forEach(ann => {
-        const date = new Date(ann.createdAt).toLocaleDateString();
-        container.innerHTML += `
-            <div style="background: var(--bg-primary); border-radius: 15px; padding: 20px; margin-bottom: 20px; border-left: 4px solid ${ann.type === 'urgent' ? '#dc3545' : '#004080'};">
-                <h3>${ann.title} ${ann.important ? '⭐' : ''}</h3>
-                <div style="margin: 10px 0;">${ann.message.replace(/\n/g, '<br>')}</div>
-                <div style="color: var(--text-secondary); font-size: 0.9em;">📅 ${date}</div>
-            </div>
-        `;
-    });
-}
-
-function filterAnnouncements(type) {
-    let filtered = allAnnouncements;
-    if (type === 'important') filtered = allAnnouncements.filter(a => a.important);
-    else if (type === 'urgent') filtered = allAnnouncements.filter(a => a.type === 'urgent');
-    else if (type === 'event') filtered = allAnnouncements.filter(a => a.type === 'event');
-    displayAnnouncements(filtered);
-    
-    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
-}
-
-function updateBadge() {
-    const badge = document.getElementById('notificationCount');
-    if (badge) {
-        const count = allAnnouncements.length;
-        badge.textContent = count > 9 ? '9+' : count;
-        badge.style.display = count > 0 ? 'flex' : 'none';
-    }
-}
-
-// ==================== PRACTICAL HUB ====================
-function loadProducts() {
-    const container = document.getElementById('productsContainer');
-    container.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading products...</div>';
-    
-    db.ref('practicalHub/products').once('value').then(snapshot => {
-        const data = snapshot.val();
-        if (!data) { container.innerHTML = '<p>No products available.</p>'; return; }
-        
-        allProducts = Object.entries(data).map(([id, p]) => ({ id, name: p.name || 'Product', price: p.price || 0, stock: p.stock || 0, category: p.category || 'general', description: p.description || '', image: p.image || '' }));
-        displayProducts(allProducts);
-    }).catch(err => { container.innerHTML = '<p>Error loading products.</p>'; });
-}
-
-function displayProducts(products) {
-    const container = document.getElementById('productsContainer');
-    container.innerHTML = '';
-    
-    if (products.length === 0) { container.innerHTML = '<p>No products found.</p>'; return; }
-    
-    products.forEach(p => {
-        container.innerHTML += `
-            <div style="background: var(--bg-primary); border-radius: 15px; overflow: hidden; border: 1px solid var(--border);">
-                <img src="${p.image || 'https://via.placeholder.com/280x200'}" style="width: 100%; height: 180px; object-fit: cover;">
-                <div style="padding: 15px;">
-                    <h3>${p.name}</h3>
-                    <p style="color: var(--text-secondary);">${p.description?.substring(0, 100)}...</p>
-                    <div style="font-size: 1.3em; font-weight: bold; color: #28a745;">Ksh ${p.price}</div>
-                    <div style="color: ${p.stock > 0 ? '#28a745' : '#dc3545'};">${p.stock > 0 ? `${p.stock} in stock` : 'Out of stock'}</div>
+        announcements.forEach(a => {
+            const date = new Date(a.createdAt).toLocaleDateString();
+            html += `
+                <div style="border-left: 4px solid #004080; padding: 1rem; margin-bottom: 1rem; background: var(--bg-primary); border-radius: 8px;">
+                    <h3>${a.title} ${a.important ? '⭐' : ''}</h3>
+                    <p>${a.message}</p>
+                    <small>📅 ${date}</small>
                 </div>
-            </div>
-        `;
-    });
-}
-
-function filterProducts() {
-    const category = document.getElementById('categoryFilter').value;
-    const search = document.getElementById('searchBox').value.toLowerCase();
-    let filtered = [...allProducts];
-    if (category !== 'all') filtered = filtered.filter(p => p.category === category);
-    if (search) filtered = filtered.filter(p => p.name.toLowerCase().includes(search));
-    displayProducts(filtered);
-}
-
-// ==================== PERSONNEL ====================
-function loadClassLeadership() {
-    const grid = document.getElementById('classLeadershipGrid');
-    db.ref('personnel/classLeadership').once('value').then(snap => {
-        const data = snap.val();
-        if (!data) { grid.innerHTML = '<p>No data.</p>'; return; }
-        grid.innerHTML = '';
-        Object.values(data).forEach(p => {
-            grid.innerHTML += `<div style="background: var(--bg-secondary); padding: 15px; border-radius: 8px;"><h3>${p.position || 'Position'}</h3><p>${p.name || 'N/A'}<br>📞 ${p.phone || 'N/A'}</p></div>`;
+            `;
         });
-    });
-}
-
-function loadFacultyLeadership() {
-    const grid = document.getElementById('facultyLeadershipGrid');
-    db.ref('personnel/facultyLeadership').once('value').then(snap => {
-        const data = snap.val();
-        if (!data) { grid.innerHTML = '<p>No data.</p>'; return; }
-        grid.innerHTML = '';
-        Object.values(data).forEach(p => {
-            grid.innerHTML += `<div style="background: var(--bg-secondary); padding: 15px; border-radius: 8px;"><h3>${p.position || 'Position'}</h3><p>${p.name || 'N/A'}<br>📞 ${p.phone || 'N/A'}</p></div>`;
-        });
-    });
-}
-
-function loadLecturers() {
-    const grid = document.getElementById('lecturersGrid');
-    db.ref('personnel/lecturers/year2sem1').once('value').then(snap => {
-        const data = snap.val();
-        if (!data) { grid.innerHTML = '<p>No lecturers.</p>'; return; }
-        grid.innerHTML = '';
-        Object.values(data).forEach(l => {
-            grid.innerHTML += `<div style="background: var(--bg-secondary); padding: 15px; border-radius: 8px;"><h3>${l.course || 'Course'}</h3><p>${l.name || 'N/A'}<br>📞 ${l.phone || 'N/A'}</p></div>`;
-        });
+        container.innerHTML = html || '<p>No announcements yet.</p>';
     });
 }
 
 // ==================== TIMETABLE ====================
 function loadTimetable() {
-    const regularContent = document.getElementById('regularTimetableContent');
-    const examContent = document.getElementById('examTimetableContent');
+    const regularDiv = document.getElementById('regularTimetableContent');
+    const examDiv = document.getElementById('examTimetableContent');
     
-    db.ref('timetable/regular').once('value').then(snap => {
+    db.ref('timetable/regular').once('value', snap => {
         const data = snap.val();
         if (data && data.schedule) {
-            let html = '<table class="timetable-table"><thead><tr><th>Time</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th></tr></thead><tbody>';
+            let html = '<table style="width:100%; border-collapse: collapse;">';
+            html += '<tr style="background: var(--primary); color: white;"><th>Time</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th></tr>';
             data.schedule.forEach(row => {
-                html += `<tr><td class="time-slot">${row.timeSlot}</td><td>${row.Monday || ''}</td><td>${row.Tuesday || ''}</td><td>${row.Wednesday || ''}</td><td>${row.Thursday || ''}</td><td>${row.Friday || ''}</td></tr>`;
+                html += `<tr>
+                    <td style="padding: 8px; border: 1px solid var(--border);">${row.timeSlot}</td>
+                    <td style="padding: 8px; border: 1px solid var(--border);">${row.Monday || ''}</td>
+                    <td style="padding: 8px; border: 1px solid var(--border);">${row.Tuesday || ''}</td>
+                    <td style="padding: 8px; border: 1px solid var(--border);">${row.Wednesday || ''}</td>
+                    <td style="padding: 8px; border: 1px solid var(--border);">${row.Thursday || ''}</td>
+                    <td style="padding: 8px; border: 1px solid var(--border);">${row.Friday || ''}</td>
+                </tr>`;
             });
-            html += '</tbody></table>';
-            regularContent.innerHTML = html;
-            document.getElementById('regularPeriod').textContent = data.period || 'Current Period';
+            html += '</table>';
+            regularDiv.innerHTML = html;
         } else {
-            regularContent.innerHTML = '<p>No timetable available.</p>';
+            regularDiv.innerHTML = '<p>No timetable available.</p>';
         }
     });
     
-    db.ref('timetable/exam').once('value').then(snap => {
+    db.ref('timetable/exam').once('value', snap => {
         const data = snap.val();
         if (data && data.schedule) {
-            let html = '<table class="timetable-table"><thead><tr><th>Date</th><th>Time</th><th>Unit</th><th>Venue</th></tr></thead><tbody>';
+            let html = '<table style="width:100%; border-collapse: collapse;"><tr style="background: var(--primary); color: white;"><th>Date</th><th>Time</th><th>Unit</th><th>Venue</th></tr>';
             Object.values(data.schedule).forEach(exam => {
-                if (exam.date) html += `<tr><td>${exam.date}</td><td>${exam.time || 'TBA'}</td><td>${exam.unitCode || ''}</td><td>${exam.venue || 'TBA'}</td></tr>`;
+                if (exam.date) {
+                    html += `<tr>
+                        <td style="padding: 8px; border: 1px solid var(--border);">${exam.date}</td>
+                        <td style="padding: 8px; border: 1px solid var(--border);">${exam.time || 'TBA'}</td>
+                        <td style="padding: 8px; border: 1px solid var(--border);">${exam.unitCode || ''}</td>
+                        <td style="padding: 8px; border: 1px solid var(--border);">${exam.venue || 'TBA'}</td>
+                    </tr>`;
+                }
             });
-            html += '</tbody></table>';
-            examContent.innerHTML = html;
-            document.getElementById('examPeriod').textContent = data.period || 'Exam Period';
+            html += '</table>';
+            examDiv.innerHTML = html;
         } else {
-            examContent.innerHTML = '<p>No exam timetable available.</p>';
+            examDiv.innerHTML = '<p>No exam timetable available.</p>';
         }
     });
 }
 
-function showTimetableType(type) {
-    document.getElementById('regularTimetable').style.display = type === 'regular' ? 'block' : 'none';
-    document.getElementById('examTimetable').style.display = type === 'exam' ? 'block' : 'none';
-    document.querySelectorAll('.timetable-tab').forEach(t => t.classList.remove('active'));
-    event.target.classList.add('active');
-}
-
-// ==================== REGISTRATION FORMS ====================
+// ==================== REGISTRATION ====================
 document.getElementById('individualRegForm')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const name = e.target.Name.value.trim();
     const regNo = e.target.RegNo.value.trim().toUpperCase();
     const phone = e.target.Phone.value.trim();
-    if (!name || !regNo || !phone) { alert('Fill all fields'); return; }
+    
     try {
         const existing = await db.ref(`registrations/${regNo}`).get();
         if (existing.exists()) { alert('Already registered'); return; }
         await db.ref(`registrations/${regNo}`).set({ name, regNo, phone, timestamp: new Date().toISOString() });
         alert('Registration successful!');
         e.target.reset();
-    } catch(err) { alert('Error'); }
+    } catch(err) { alert('Error saving registration'); }
 });
+
+let shift1Count = 0, shift2Count = 0;
+function loadShiftCounts() {
+    db.ref('trip/shift1').on('value', snap => {
+        shift1Count = snap.exists() ? Object.keys(snap.val()).length : 0;
+        document.getElementById('shift1Status').innerHTML = `Shift 1: ${shift1Count}/51 registered`;
+    });
+    db.ref('trip/shift2').on('value', snap => {
+        shift2Count = snap.exists() ? Object.keys(snap.val()).length : 0;
+        document.getElementById('shift2Status').innerHTML = `Shift 2: ${shift2Count}/52 registered`;
+    });
+}
 
 document.getElementById('tripForm')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const name = document.getElementById('tripName').value.trim();
     const regNo = document.getElementById('tripRegNo').value.trim().toUpperCase();
     const shift = document.getElementById('tripShift').value;
-    if (!name || !regNo || !shift) { alert('Fill all fields'); return; }
+    
+    if ((shift === 'shift1' && shift1Count >= 51) || (shift === 'shift2' && shift2Count >= 52)) {
+        alert('Selected shift is full!');
+        return;
+    }
+    
     try {
         await db.ref(`trip/${shift}`).push().set({ name, regNo, shift, timestamp: new Date().toISOString() });
-        alert('Registered for trip!');
+        alert('Registered for trip successfully!');
         e.target.reset();
-        loadShiftCounts();
-    } catch(err) { alert('Error'); }
+    } catch(err) { alert('Error registering'); }
 });
-
-function loadShiftCounts() {
-    db.ref('trip/shift1').on('value', snap => {
-        const count = snap.exists() ? Object.keys(snap.val()).length : 0;
-        document.getElementById('shift1Status').innerHTML = `Shift 1: ${count}/51 registered`;
-    });
-    db.ref('trip/shift2').on('value', snap => {
-        const count = snap.exists() ? Object.keys(snap.val()).length : 0;
-        document.getElementById('shift2Status').innerHTML = `Shift 2: ${count}/52 registered`;
-    });
-}
-loadShiftCounts();
 
 // ==================== SUPPORT ====================
 function showSupportYear(year) {
-    document.querySelectorAll('.support-year-content').forEach(el => el.style.display = 'none');
-    document.getElementById(`support-${year}`).style.display = 'block';
-    document.querySelectorAll('.year-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
+    document.getElementById('support-year1').style.display = year === 'year1' ? 'block' : 'none';
+    document.getElementById('support-year2').style.display = year === 'year2' ? 'block' : 'none';
 }
 
 document.getElementById('complaint-year1')?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const name = e.target.Name.value;
-    const regNo = e.target.RegNo.value.toUpperCase();
-    const lecturer = e.target.Lecturer.value;
-    const unit = e.target.Unit.value;
-    if (!name || !regNo || !lecturer || !unit) { alert('Fill all fields'); return; }
-    await db.ref(`complaints_year1/${regNo}/${Date.now()}`).set({ name, regNo, unit, lecturer, submittedAt: new Date().toISOString() });
+    const data = { name: e.target.Name.value, regNo: e.target.RegNo.value.toUpperCase(), lecturer: e.target.Lecturer.value, unit: e.target.Unit.value, submittedAt: new Date().toISOString() };
+    await db.ref(`complaints_year1/${data.regNo}/${Date.now()}`).set(data);
     alert('Complaint submitted!');
     e.target.reset();
 });
@@ -701,12 +641,6 @@ document.getElementById('complaint-year2')?.addEventListener('submit', async (e)
     e.preventDefault();
     const regNo = e.target.RegNo.value.toUpperCase();
     const unit = e.target.Unit.value;
-    const existing = await db.ref(`complaints/${regNo}`).get();
-    let duplicate = false;
-    if (existing.exists()) {
-        for (let entry of Object.values(existing.val())) if (entry.unit === unit) duplicate = true;
-    }
-    if (duplicate) { alert('Complaint already exists for this unit'); return; }
     await db.ref(`complaints/${regNo}/${Date.now()}`).set({ regNo, unit, submittedAt: new Date().toISOString() });
     alert('Complaint submitted!');
     e.target.reset();
@@ -724,16 +658,36 @@ document.getElementById('anonymous-year2')?.addEventListener('submit', async (e)
 });
 
 // ==================== ADMIN AUTH ====================
+let isAdmin = false;
+
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        db.ref('admins/' + user.uid).once('value').then(snap => {
+            if (snap.exists()) {
+                isAdmin = true;
+                document.getElementById('adminIndicator').style.display = 'flex';
+                document.getElementById('adminDashboardLink').style.display = 'flex';
+                document.getElementById('adminLoginLink').style.display = 'none';
+            }
+        });
+    } else {
+        isAdmin = false;
+        document.getElementById('adminIndicator').style.display = 'none';
+        document.getElementById('adminDashboardLink').style.display = 'none';
+        document.getElementById('adminLoginLink').style.display = 'flex';
+    }
+});
+
 document.getElementById('adminLoginForm')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = document.getElementById('adminEmail').value;
     const password = document.getElementById('adminPassword').value;
-    const errorDiv = document.getElementById('loginErrorMessage');
+    const errorDiv = document.getElementById('loginError');
+    
     try {
         const userCred = await auth.signInWithEmailAndPassword(email, password);
         const adminCheck = await db.ref('admins/' + userCred.user.uid).get();
         if (adminCheck.exists()) {
-            isAdmin = true;
             showPage('adminDashboard');
         } else {
             await auth.signOut();
@@ -746,23 +700,16 @@ document.getElementById('adminLoginForm')?.addEventListener('submit', async (e) 
     }
 });
 
-function logout() { auth.signOut().then(() => { showPage('home'); location.reload(); }); }
-
-function loadAdminDashboard() {
-    const container = document.getElementById('adminDashboardContent');
-    db.ref('registrations').once('value').then(s => {
-        let count = 0;
-        const data = s.val();
-        if (data) for (let p1 in data) for (let p2 in data[p1]) for (let p3 in data[p1][p2]) count++;
-        container.innerHTML = `<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
-            <div style="background: linear-gradient(135deg, #004080, #0066cc); color: white; padding: 20px; border-radius: 10px; text-align: center;"><div class="stat-number">${count}</div><div>Total Students</div></div>
-        </div>`;
+function logout() {
+    auth.signOut().then(() => {
+        showPage('home');
+        location.reload();
     });
 }
 
-function closeEditor() { document.getElementById('adminModal').style.display = 'none'; }
-function saveContent() { alert('Save function - will implement'); closeEditor(); }
-function openEditor(section) { document.getElementById('adminModal').style.display = 'block'; }
+function loadAdminDashboard() {
+    document.getElementById('adminDashboardContent').innerHTML = '<p>Welcome to the Admin Dashboard. Use the sidebar to manage content.</p>';
+}
 
 // ==================== THEME & SIDEBAR ====================
 const themeToggle = document.getElementById('themeToggle');
@@ -770,6 +717,7 @@ const html = document.documentElement;
 const savedTheme = localStorage.getItem('theme') || 'light';
 html.setAttribute('data-theme', savedTheme);
 themeToggle.innerHTML = savedTheme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+
 themeToggle.addEventListener('click', () => {
     const newTheme = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
     html.setAttribute('data-theme', newTheme);
@@ -780,16 +728,19 @@ themeToggle.addEventListener('click', () => {
 const menuBtn = document.getElementById('menuBtn');
 const sidebar = document.getElementById('sidebar');
 const overlay = document.getElementById('overlay');
-menuBtn.addEventListener('click', () => { sidebar.classList.toggle('active'); overlay.classList.toggle('active'); });
-overlay.addEventListener('click', () => { sidebar.classList.remove('active'); overlay.classList.remove('active'); });
 
-// ==================== INITIALIZE ====================
+menuBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('active');
+    overlay.classList.toggle('active');
+});
+
+overlay.addEventListener('click', () => {
+    sidebar.classList.remove('active');
+    overlay.classList.remove('active');
+});
+
+// ==================== START ====================
 showPage('home');
-
-// Service Worker for PWA
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').catch(err => console.log('SW error:', err));
-}
 </script>
 
 </body>
