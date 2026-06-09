@@ -2343,6 +2343,56 @@
         // Make storage available globally (optional but helpful)
         window.firebaseStorage = storage;
 
+
+        // ==================== ADD THIS MESSAGING INITIALIZATION ====================
+// Initialize Firebase Messaging for admin notifications
+if (firebase.messaging && firebase.messaging.isSupported()) {
+    console.log('📱 Initializing Firebase Messaging on Admin Dashboard...');
+    
+    const messaging = firebase.messaging();
+    
+    // Request permission if not granted
+    if (Notification.permission !== 'granted') {
+        Notification.requestPermission().then(permission => {
+            console.log('Notification permission:', permission);
+            if (permission === 'granted') {
+                getAdminFCMToken(messaging);
+            }
+        });
+    } else {
+        getAdminFCMToken(messaging);
+    }
+    
+    // Listen for messages on admin page too
+    messaging.onMessage((payload) => {
+        console.log('📨 Admin received notification:', payload);
+        const title = payload.notification?.title || 'New Announcement';
+        const options = {
+            body: payload.notification?.body || 'Check the website',
+            icon: 'pngegg.png'
+        };
+        new Notification(title, options);
+    });
+}
+
+function getAdminFCMToken(messaging) {
+    messaging.getToken({
+        vapidKey: 'BMYtnObicSX3KWDOnLoOe7ZdO4qAzMO9q7tt4j1CdmUsvHYAdJfiLMWF6Y339UJKtw_2hmNnCGe58SeeiK2PX4k'
+    }).then(token => {
+        if (token) {
+            console.log('✅ Admin FCM Token:', token.substring(0, 30) + '...');
+            // Save to Firebase with admin flag
+            const userId = auth.currentUser?.uid || 'admin';
+            db.ref('fcmTokens/' + userId).set({
+                token: token,
+                role: 'admin',
+                timestamp: new Date().toISOString()
+            });
+        }
+    }).catch(err => console.log('❌ Admin token error:', err.message));
+}
+// ==================== END MESSAGING INITIALIZATION ====================
+
         let currentEditingSection = '';
         let currentContentTab = 'homepage';
 
